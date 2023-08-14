@@ -11,12 +11,14 @@ const getCommon: RequestHandler = async (req, res) => {
     const teacherEmail = req.query.teacher as string[];
     if (teacherEmail) {
       //Switch querys based on number of params
+      //query for multiple teachers
       const query = Array.isArray(teacherEmail)
         ? `SELECT student_email
         FROM teacher_student
         WHERE teacher_email IN (?)
         GROUP BY student_email
         HAVING COUNT(DISTINCT teacher_email) = ?`
+        //query for 1 teacher
         : `SELECT student_email
         FROM teacher_student
         WHERE teacher_email = ?`;
