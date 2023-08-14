@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import Logger from './logger';
-
+import mysql from 'mysql2'
 const LOG = new Logger('database.ts');
 const {
   DB_HOST = 'localhost',
@@ -30,6 +30,15 @@ const sequelize = new Sequelize(DB_SCHEMA, DB_USER, DB_PW, {
     LOG.log(DB_LOG_LEVEL, msg);
   }
 });
+export const pool = mysql
+  .createPool({
+    host: DB_HOST,
+    user: DB_USER,
+    password: DB_PW,
+    database: DB_SCHEMA,
+    port: parseInt(DB_PORT),
+  })
+  .promise();
 
 export default sequelize;
 
