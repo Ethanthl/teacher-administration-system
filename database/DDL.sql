@@ -120,7 +120,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('james@gmail.com',1),('studentagnes@gmail.com',1),('studentbob@gmail.com',1),('studentcharles@gmail.com',1),('studenthon@gmail.com',1),('studentjoey@gmail.com',1),('studentjohn@gmail.com',1),('studentmiche@gmail.com',1),('studentnic@gmail.com',1),('studentjon@gmail.com',2),('studentmary@gmail.com',2);
+INSERT INTO `student` VALUES ('james@gmail.com',1),('studentagnes@gmail.com',1),('studentbob@gmail.com',1),('studentcharles@gmail.com',1),('studenthon@gmail.com',1),('studentjoey@gmail.com',1),('studentjohn@gmail.com',1),('studentmiche@gmail.com',1),('studentnic@gmail.com',1),('studentjon@gmail.com',2),('studentmary@gmail.com',1);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +172,7 @@ CREATE TABLE `teacher_student` (
 
 LOCK TABLES `teacher_student` WRITE;
 /*!40000 ALTER TABLE `teacher_student` DISABLE KEYS */;
-INSERT INTO `teacher_student` VALUES ('teacherken@gmail.com','studenthon@gmail.com'),('teacherbarbie@gmail.com','studentJoey@gmail.com'),('teacherjoe@gmail.com','studentJoey@gmail.com'),('teacherken@gmail.com','studentJoey@gmail.com'),('teacherbarbie@gmail.com','studentjohn@gmail.com'),('teacherjoe@gmail.com','studentjohn@gmail.com'),('teacherken@gmail.com','studentjohn@gmail.com'),('teacherken@gmail.com','studentjon@gmail.com'),('teacherjoe@gmail.com','studentmary@gmail.com');
+-- INSERT INTO `teacher_student` VALUES ('teacherken@gmail.com','studenthon@gmail.com'),('teacherbarbie@gmail.com','studentJoey@gmail.com'),('teacherjoe@gmail.com','studentJoey@gmail.com'),('teacherken@gmail.com','studentJoey@gmail.com'),('teacherbarbie@gmail.com','studentjohn@gmail.com'),('teacherjoe@gmail.com','studentjohn@gmail.com'),('teacherken@gmail.com','studentjohn@gmail.com'),('teacherken@gmail.com','studentjon@gmail.com'),('teacherjoe@gmail.com','studentmary@gmail.com');
 /*!40000 ALTER TABLE `teacher_student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
