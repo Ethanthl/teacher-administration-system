@@ -10,7 +10,7 @@ Please read through `NodeJS API Assessment.pdf` carefully before you attempt. Wh
 - Teacher & students: I'm assuming that since I am not asked to create an endpoint for adding teachers and students, there should be some in the database.
 - Existing users:
   - Teachers: 'teacherbarbie@gmail.com', 'teacherjoe@gmail.com', 'teacherken@gmail.com'
-  - Students: 'james@gmail.com', 'studentagnes@gmail.com', ...
+  - Students: 'james@gmail.com','studentagnes@gmail.com','studentbob@gmail.com','studentcharles@gmail.com','studenthon@gmail.com','studentjoey@gmail.com','studentjohn@gmail.com','studentmiche@gmail.com','studentnic@gmail.com','studentjon@gmail.com','studentmary@gmail.com'
     (Note: Additional assumptions and notes can be found as comments in code)
 
 ## Prerequisites
