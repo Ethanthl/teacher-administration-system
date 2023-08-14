@@ -4,7 +4,6 @@ import { pool } from "../config/database";
 const Common = Express.Router();
 
 const getCommon: RequestHandler = async (req, res) => {
-
   const connection = await pool.getConnection();
 
   try {
@@ -18,14 +17,15 @@ const getCommon: RequestHandler = async (req, res) => {
         WHERE teacher_email IN (?)
         GROUP BY student_email
         HAVING COUNT(DISTINCT teacher_email) = ?`
-        //query for 1 teacher
-        : `SELECT student_email
+        : //query for 1 teacher
+          `SELECT student_email
         FROM teacher_student
         WHERE teacher_email = ?`;
       //Switch req based on number of params
       const [rows]: any = Array.isArray(teacherEmail)
         ? await connection.query(query, [teacherEmail, teacherEmail.length])
         : await connection.query(query, teacherEmail);
+      connection.release();
       if (rows.length > 0) {
         const commonStudents = rows as any;
         const responseStudents: string[] = [];

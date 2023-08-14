@@ -17,7 +17,7 @@ const suspendHandler: RequestHandler = async (req, res) => {
       setStatus,
       body.student,
     ]);
-    console.log(result.affectedRows)
+    
     if (result.affectedRows === 0) {
       throw new Error("Invalid Email");
     }
