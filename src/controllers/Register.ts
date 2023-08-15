@@ -41,7 +41,7 @@ const registerHandler: RequestHandler = async (req, res) => {
     let message = "";
     if (error.code === "ER_DUP_ENTRY") {
       console.error("Error registering students to teachers:", error.code);
-      message = "Error registering students to teachers:" + error.code;
+      message = "Error registering students to teachers: student already registered to teacher" ;
     } else {
       //throw invalid email
       console.error("Error registering students to teachers:");
