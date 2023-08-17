@@ -2,29 +2,31 @@ import Express, { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import { pool } from "../config/database";
 const Common = Express.Router();
+import validator from "validator";
 
 const getCommon: RequestHandler = async (req, res) => {
   const connection = await pool.getConnection();
 
   try {
+    //save as array if there are multiple params
     const teacherEmail = req.query.teacher as string[];
     if (teacherEmail) {
-      //Switch querys based on number of params
-      //query for multiple teachers
-      const query = Array.isArray(teacherEmail)
-        ? `SELECT student_email
+      if (Array.isArray(teacherEmail)) {
+        teacherEmail.map((email) => {
+          if (validator.isEmail(email) === false) {
+            throw new Error("Invalid email");
+          }
+        });
+      } else if (validator.isEmail(teacherEmail) === false) {
+        throw new Error("Invalid email");
+      }
+      const query = `SELECT DISTINCT student_email
         FROM teacher_student
         WHERE teacher_email IN (?)
-        GROUP BY student_email
-        HAVING COUNT(DISTINCT teacher_email) = ?`
-        : //query for 1 teacher
-          `SELECT student_email
-        FROM teacher_student
-        WHERE teacher_email = ?`;
-      //Switch req based on number of params
-      const [rows]: any = Array.isArray(teacherEmail)
-        ? await connection.query(query, [teacherEmail, teacherEmail.length])
-        : await connection.query(query, teacherEmail);
+        GROUP BY student_email`;
+
+      const [rows]: any = await connection.query(query, teacherEmail);
+
       connection.release();
       if (rows.length > 0) {
         const commonStudents = rows as any;
@@ -34,7 +36,7 @@ const getCommon: RequestHandler = async (req, res) => {
         );
         res.status(StatusCodes.OK).json({ students: responseStudents });
       } else {
-        throw new Error("Invalid Email");
+        throw new Error("Database error");
       }
     }
   } catch (error) {

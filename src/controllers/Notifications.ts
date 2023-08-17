@@ -1,7 +1,7 @@
 import Express, { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import { pool } from "../config/database";
-
+import validator from "validator";
 const Notification = Express.Router();
 
 const retrieveNotificationsHandler: RequestHandler = async (req, res) => {
@@ -9,14 +9,16 @@ const retrieveNotificationsHandler: RequestHandler = async (req, res) => {
   try {
     const getStudentsQuery = `SELECT student_email FROM teacher_student WHERE teacher_email = ?`;
     const notificationQuery = ` INSERT INTO notification(notification_message, teacher_email) VALUES(?,?)`;
-    // const recipientQuery = `INSERT INTO recipient (notification_id, student_email) VALUES (?, ?)`;
     const getRecipientsQuery = `SELECT r.student_email
-    FROM recipient r JOIN student s ON s.student_email = r.student_email WHERE notification_id = ? AND s.status_id =1`;
+    FROM recipient r JOIN student s ON s.student_email = r.student_email WHERE notification_id = ? AND s.status_id = 1`;
     const body = req.body;
     const teacher = body.teacher;
     const parts = body.notification.split("@");
     const message = parts[0].trim(); // Trim any leading/trailing spaces
     //get students associated with teacher
+    if (!validator.isEmail(teacher)) {
+      throw new Error('Invalid teacher email')
+    }
     const [studentEmails]: any = await connection.execute(getStudentsQuery, [
       teacher,
     ]);
@@ -30,7 +32,9 @@ const retrieveNotificationsHandler: RequestHandler = async (req, res) => {
       const studentEmailPart = parts[i].trim();
       const domainPart = parts[i + 1].trim();
       const studentEmail = `${studentEmailPart}@${domainPart}`;
-      studentEmailsFixed.push(studentEmail);
+      if (validator.isEmail(studentEmail)) {
+        studentEmailsFixed.push(studentEmail);
+      }
     }
     //add notifications to notifications table
     const [notificationResult]: any = await connection.execute(
@@ -39,7 +43,7 @@ const retrieveNotificationsHandler: RequestHandler = async (req, res) => {
     );
     console.log(notificationResult);
     if (notificationResult.affectedRows === 0) {
-      throw new Error("Invalid Email");
+      throw new Error("Database error");
     }
     const notificationId = notificationResult.insertId;
     // Create an array of value sets for insertion
